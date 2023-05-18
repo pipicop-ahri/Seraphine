@@ -7,6 +7,8 @@ package com.design.creatation.factory.abstractfactory;
  * 保证了开闭原则，对扩展开放，对修改关闭。
  *
  * 再次对每个产品族进行提升，创建各自的接口定义，如 MaskFactory和CarFactory，实际的工厂只需按照他们产品族接口实现即可。
+ * 简单工厂、工厂方法、抽象工厂之间的区别
+ * 	抽象工厂如果只有一个产品族，那就可以简化成工厂方法，如果工厂方法也只有极少的种类，就可以简化成简单工厂
  *
  * @Title: MainTest
  * @Description: 抽象工厂
