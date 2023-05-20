@@ -1,0 +1,41 @@
+@startuml
+
+interface MoviePlayer<<目标对象>>{
+    + void player()
+}
+interface Translator<<适配者>>{
+    + String translate()
+}
+class MoviePlayerAdapter<<适配器>> {
+    - {field} Translator translate
+    + {method} void player()
+}
+
+class Zh_JPTranslator<<适配者实现>> {
+    + String translate()
+}
+
+class MainTest<<测试类>> {
+    + void main();
+}
+
+MoviePlayer <|..    MoviePlayerAdapter : 实现
+Translator  <|..    Zh_JPTranslator : 实现
+MoviePlayerAdapter --|>  Zh_JPTranslator : 实现
+note on link #pink : 1.继承\n2.组合:引入对象
+MoviePlayerAdapter --|> MainTest : 创建适配器来\n调用 player()
+note right of MoviePlayerAdapter::"player()"
+    ...
+    调用player()播放
+    调用translate()翻译
+    ...
+end note
+'
+'note as common
+'适配器模式：联接两个不同接口之间适配的桥梁
+'
+'目标对象  A 接口：MoviePlayer：电影播放器
+'适配者	B 接口：Translate：字幕翻译。
+'器适配器	MoviePlayerAdapter：兼容 A、B 接口，在播放电影的同时，还要翻译字幕"
+'end note
+@enduml
