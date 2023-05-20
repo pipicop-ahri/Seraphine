@@ -1,0 +1,65 @@
+@startuml
+title Bridge Pattern（桥接模式）
+header 设计模式-结构型模式
+'抽象化角色
+abstract AbstractPhone {
+    + AbstractSale sale
+    + String info
+    + String getPhone()
+    + void setSale()
+}
+'扩展抽象化角色
+class XiaoMiCommonPhone {
+    + AbstractSale sale
+    + String info
+    + String getPhone()
+    + void setSale()
+}
+class XiaoMiPerformancePhone {
+    + AbstractSale sale
+    + String info
+    + String getPhone()
+    + void setSale()
+}
+'实现化角色
+abstract AbstractSale {
+    + String price
+    + String type
+    + String getSaleInfo()
+}
+'具体实现化角色
+class PhoneOfflineSale {
+    + String price
+    + String type
+    + String getSaleInfo()
+}
+class PhoneOlineSale {
+    + String price
+    + String type
+    + String getSaleInfo()
+}
+'测试类
+class MainTest {
+    + void main()
+}
+
+'扩展抽象化角色实现
+AbstractPhone   <|--    XiaoMiCommonPhone : 继承
+AbstractPhone   <|--    XiaoMiPerformancePhone : 继承
+'实现化角色实现
+AbstractSale    <|--    PhoneOlineSale : 继承
+AbstractSale    <|--    PhoneOfflineSale : 继承
+'AbstractPhone::sale ..> AbstractSale : 组合
+AbstractPhone::sale ..> AbstractSale : 组合
+note right on link #pink : 把其它扩展属性作为\n自己的属性引用进来
+XiaoMiCommonPhone   <|.[#green].    MainTest : 创建对象
+PhoneOfflineSale    .[#green].|>    MainTest : 供扩展抽象化角色调用
+
+note right of MainTest::"main()"
+    XiaoMiCommonPhone phone = new XiaoMiCommonPhone();
+    <color:red>// 创建自己的独立实现供扩展抽象化角色调用
+    phone.setSale(new PhoneOfflineSale());
+    phone.getPhone();
+end note
+
+@enduml

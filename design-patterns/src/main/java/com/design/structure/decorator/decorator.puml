@@ -1,0 +1,46 @@
+@startuml
+title Decorator Pattern（装饰器模式）
+header 设计模式-结构型模式
+
+'抽象构件
+interface LiveStream<<抽象构件>> {
+    + void liveStream()
+}
+'抽象装饰
+interface BeautifyDecorator<<抽象装饰>> {
+    + void liveStream()
+    + void enableBeautify()
+}
+
+'具体构件
+class MyLiveStream<<具体构件>> {
+    + void liveStream()
+}
+
+'具体装饰
+class EnableBeautifyDecorator<<具体装饰>> {
+    + MyLiveStream liveStream
+    + EnableBeautifyDecorator(MyLiveStream liveStream)
+    + void liveStream()
+    + void enableBeautify()
+}
+
+LiveStream  <|..    BeautifyDecorator : 继承
+note of link #pink : 要增强什么，就\n实现什么进行包装
+
+LiveStream  <|--    MyLiveStream : 实现直播功能
+BeautifyDecorator   <|--    EnableBeautifyDecorator : 实现开启美颜功能
+
+note right of EnableBeautifyDecorator::"EnableBeautifyDecorator"
+this.liveStream = liveStream;
+只需要创建装饰器对象，
+并传入要装饰的类，就可以实现功能增强
+end note
+
+note right of EnableBeautifyDecorator::liveStream()
+调用原对象的直播功能
+liveStream.liveStream();
+添加自己的增强实现
+enableBeautify();
+end note
+@enduml

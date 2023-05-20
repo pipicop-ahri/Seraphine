@@ -22,6 +22,7 @@ public class MoviePlayerAdapter extends Zh_JPTranslator implements Player {
 	@Override
 	public String player() {
 		player.player();
+		//调用其它接口，如果这里不调用其它接口，就成了一个装饰器模式
 		translate("你好");
 		return null;
 	}

@@ -1,0 +1,16 @@
+@startuml
+title Composite Pattern（组合模式）
+header 设计模式—结构型
+
+class SysOffice{
+    + String id
+    + String name
+    + String parentId
+    + List<SysOffice> childs
+    + void addChilds()
+}
+
+SysOffice::addChilds --* SysOffice::childs : 自组合
+note on link #pink : 部门的子级还是部门
+
+@enduml

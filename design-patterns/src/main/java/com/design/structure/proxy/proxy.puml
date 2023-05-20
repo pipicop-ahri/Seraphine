@@ -1,0 +1,27 @@
+@startuml
+title Proxy Pattern（代理模式）
+header 设计模式-结构型模式
+
+interface LiveStream<<Subject>> {
+    + void liveStream()
+}
+
+class MyLiveStream<<RealSubject>> {
+    + void liveStream()
+}
+
+class MyProxyLiveStream<<Proxy>> {
+    + MyLiveStream liveStream
+    + void liveStream()
+}
+
+LiveStream <|.. MyLiveStream : 实现
+LiveStream <|.. MyProxyLiveStream : 实现
+MyProxyLiveStream --|> MyLiveStream : 代理
+note left on link #pink : 功能增强,既可调用被代理者的功能，\n也可调用自己的功能
+note left of MyProxyLiveStream::liveStream
+真实的代理的地方，
+功能增强或替换
+end note
+
+@enduml

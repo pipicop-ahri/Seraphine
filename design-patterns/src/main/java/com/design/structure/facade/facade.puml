@@ -1,0 +1,28 @@
+@startuml
+title Facade Pattern（外观模式）
+header 设计模式-结构型
+
+class PoliceStation{
+    + void newPeople(String name)
+}
+class EducationBureau {
+    + void getSchool(String name)
+}
+class SocialSecurity {
+    + void getSocialSecurity(String name)
+}
+class GovernmentFacade {
+    + void getSchool(String name)
+    + void getSocialSecurity(String name)
+    + void newPeople(String name)
+}
+class Client{}
+
+GovernmentFacade --|> PoliceStation : 调用
+GovernmentFacade --|> EducationBureau : 调用
+GovernmentFacade --|> SocialSecurity : 调用
+
+Client --|> GovernmentFacade : 访问
+
+
+@enduml

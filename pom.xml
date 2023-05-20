@@ -27,6 +27,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.26</version>
         </dependency>
+        <!-- Cglib动态代理 -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version>
+        </dependency>
     </dependencies>
 
 </project>

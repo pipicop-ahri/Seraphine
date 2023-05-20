@@ -1,5 +1,5 @@
 @startuml
-
+title Adapter Pattern（适配器模式）
 interface MoviePlayer<<目标对象>>{
     + void player()
 }
