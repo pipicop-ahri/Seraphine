@@ -1,0 +1,30 @@
+@startuml
+title Flyweight Pattern（享元模式）
+header 设计模式-结构型
+
+abstract AbstractWaitressFlyweight {
+    + Boolean isCanServe = true
+    + void getService()
+    + void endService()
+    + Boolean isCanServe()
+}
+class WaitressFlyweight {
+    + int id
+    + String name
+    + int age
+}
+class ZuDao {
+    + Map waitressPool
+    + void addWaitress()
+    + AbstractWaitressFlyweight getWaitress()
+}
+class MainTest {
+    + void main()
+}
+
+AbstractWaitressFlyweight <|-- WaitressFlyweight : 继承
+ZuDao --|> WaitressFlyweight : 生产
+WaitressFlyweight --|> MainTest : 获取
+note left of AbstractWaitressFlyweight #pink : 外部状态：当前服务员\n能否服务就是她的非共享属性
+note left of WaitressFlyweight #pink: 内部状态：当前服务员工\n号、姓名、年龄这些属于共享属性
+@enduml
