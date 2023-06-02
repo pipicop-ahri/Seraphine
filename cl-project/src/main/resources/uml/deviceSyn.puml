@@ -1,0 +1,90 @@
+@startuml
+
+autonumber
+Actor User as user
+participant "iot-park-vue" as door
+participant "clf-energy" as energy
+participant "clf-device" as device
+participant "clf-system" as system
+participant "dev-dispatch" as dispatch
+
+user -> door : 输入电表信息,点击保存
+door -> energy : 携带数据请求后台服务
+energy -> system : 请求获取当前登录用户的parkId
+system -> energy : 返回parkId
+energy -> energy : 请求设备枚举类拿到在线监测的产品类型
+energy -> energy : 判断前端传的设备id是否为空
+alt 如果为空
+    energy -> energy : id为空则新增
+    energy -> energy : 读数方式是否为自动
+    energy -> energy : 为自动才组装参数
+    energy -> device : 调用device服务的设备同步接口
+    device -> system : 请求查询表获取要同步的网关地址
+    system -> system : 通过parkId和producyType查询sys_device_serve表
+    system -> device : 返回第一条数据
+    device -> dispatch : 拼装/api/dev/sync向目标网关发送post请求
+else 如果不为空
+    energy -> energy : 更新本地设备信息
+    energy -> energy : 读数方式是否为自动
+    energy -> device : 为自动时组装更新参数请求设备服务的更新接口
+    device -> system : 请求查询表获取要同步的网关地址
+    system -> system : 通过parkId和producyType查询sys_device_serve表
+    system -> device : 返回第一条数据
+    device -> dispatch : 拼装/api/dev/sync向目标网关发送post请求
+end
+
+... 请求到达网关 ...
+
+dispatch -> dispatch : 通过parkId和productKey在rule_device表查哪来类来处理该类设备
+dispatch -> dispatch : 未查到返回msg=未找到对应路由
+dispatch -> dispatch : 获取处理处理类实体,调用同步方法
+dispatch -> dispatch : 请求到达mfService处理类
+dispatch -> dispatch : 登录魔方，登录\n成功缓存10小时
+note right #pink
+日志查询
+1."魔方请求参数+签名:"
+2."sendPostRequest(url="
+remark：两条数据的timeStamp要一致
+end note
+dispatch -> dispatch : 将请求参数转为设备列表
+dispatch -> dispatch : 登录成功后判断返回数据是否有返回familyId，\n无则提示该账号无家庭ID--魔方设备
+dispatch -> dispatch : 遍历设备列表入basis_device表
+dispatch -> dispatch : 遍历设备列表，请求魔方的bindFamilyDevice接口
+note right #pink
+日志查询
+搜索 "sendPostRequest(url="
+再搜设备key
+end note
+dispatch -> device : 返回同步消息
+
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

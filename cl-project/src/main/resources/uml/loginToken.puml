@@ -1,0 +1,108 @@
+@startuml
+title SystemAuthorizingRealm（系统安全认证实现）
+header 系统安全认证实现
+interface Serializable
+interface AuthenticationToken{
+    + Object getPrincipal()
+    + Object getCredentials()
+}
+interface RememberMeAuthenticationToken {
+    + boolean isRememberMe()
+}
+interface HostAuthenticationToken {
+    + String getHost()
+}
+package "shiro-core" #DDDDDD {
+    class Shiro_UsernamePasswordToken {
+        - String username
+        - char[] password
+        - boolean rememberMe = false
+        - String host
+        + UsernamePasswordToken()
+        + void clear()
+        + String toString()
+        + void setHost()
+        + void setPassword()
+        + void setRememberMe()
+    }
+}
+package "clf-core-shiro" #DDDDDD {
+    class Frame_UsernamePasswordToken {
+        - String captcha
+    }
+}
+'Token实现
+class ParkAuthUserToken {
+    - String userId
+}
+class AuthUserNamePasswordToken {
+	- String userCode
+	- String validCode
+}
+class MultiParkSsoToken {
+    - String userMobile
+}
+'Service
+abstract TokenProcessService {
+    + TokenProcessVo processToken(AuthenticationToken authcToken)
+}
+class CustomAuthTokenProcessService <<CustomRealm>> {
+    + instanceof ParkAuthUserToken
+}
+class ParkTokenProcessService <<CustomRealm>>{
+    + instanceof Frame_UsernamePasswordToken
+}
+class AuthTokenProcessService <<JarRealm>>{
+    + instanceof AuthUserNamePasswordToken
+}
+class MultiParkTokenProcessService <<CustomRealm>> {
+    + TokenProcessVo processToken(AuthenticationToken authcToken);
+    + instanceof MultiParkSsoToken
+}
+'Shiro
+Serializable <|.. AuthenticationToken : extends
+AuthenticationToken <|..  HostAuthenticationToken: extends
+AuthenticationToken <|..  RememberMeAuthenticationToken: extends
+RememberMeAuthenticationToken <|-- Shiro_UsernamePasswordToken : implements
+HostAuthenticationToken <|-- Shiro_UsernamePasswordToken : implements
+Shiro_UsernamePasswordToken <|-- Frame_UsernamePasswordToken : extends
+'框架
+Frame_UsernamePasswordToken <|-- ParkAuthUserToken : extends
+Frame_UsernamePasswordToken <|-- AuthUserNamePasswordToken : extends
+Frame_UsernamePasswordToken <|-- MultiParkSsoToken : extends
+'处理类
+TokenProcessService <|-- CustomAuthTokenProcessService : extends
+TokenProcessService <|-- ParkTokenProcessService : extends
+TokenProcessService <|-- AuthTokenProcessService : extends
+TokenProcessService <|-- MultiParkTokenProcessService : extends
+
+
+
+ParkAuthUserToken <-[thickness=2,#blue]- CustomAuthTokenProcessService : deal
+note bottom of CustomAuthTokenProcessService
+通过用户ID从Session，缓存中查用户。
+end note
+
+
+AuthUserNamePasswordToken <-[thickness=2,#green]- AuthTokenProcessService : deal
+note bottom of AuthTokenProcessService
+clf-gateway-0.2.4.1-RELEASE.jar
+不可更改，使用条件OR通过手机号、工号查询用户
+end note
+
+MultiParkSsoToken <-[thickness=2,#pink]- MultiParkTokenProcessService : deal
+note bottom of MultiParkTokenProcessService
+通过手机号查询默认园区用户
+end note
+
+Frame_UsernamePasswordToken <-[thickness=2,#red]- ParkTokenProcessService : deal
+ParkAuthUserToken <-[thickness=2,#red]- ParkTokenProcessService : deal
+AuthUserNamePasswordToken <-[thickness=2,#red]- ParkTokenProcessService : deal
+MultiParkSsoToken <-[thickness=2,#red]- ParkTokenProcessService : deal
+note bottom of ParkTokenProcessService #pink
+检验是否有userName（手机号）属性，没有就跳出认证
+如果只有userName，没有passWord（明文）属性认证会报错
+通过手机号查询用户列表,遍历后返回默认园区的用户。
+end note
+
+@enduml

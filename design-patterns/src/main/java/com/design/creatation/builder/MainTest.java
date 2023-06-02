@@ -1,9 +1,7 @@
 package com.design.creatation.builder;
 
 /**
- * 构建者模式：创建东西的细节复杂，还要暴露给调用者。 屏蔽过程，开放细节
- *
- *
+ * 构建者模式：创建东西的细节复杂，还要暴露给调用者使用。 屏蔽过程，开放细节
  * @Title: MainTest
  * @Description: 构建者模式测试类
  * @Author: yj
@@ -29,6 +27,14 @@ public class MainTest {
 				.camera("2亿")
 				.build();
 		System.out.println("phone = " + phone);
+
+		AbstractBuilder huaWeiBuilder = new HuaWeiBuilder();
+		Phone huaWeiPhone = huaWeiBuilder.customerCamera("20y")
+				.customerCpu("1核")
+				.customerMemory("2G")
+				.getProduct();
+		System.out.println("phone = " + huaWeiPhone);
+
 
 	}
 }
