@@ -13,6 +13,7 @@
 
     <modules>
         <module>design-patterns</module>
+        <module>cl-project</module>
     </modules>
 
     <properties>

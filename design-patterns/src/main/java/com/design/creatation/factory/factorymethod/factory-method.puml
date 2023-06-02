@@ -1,0 +1,35 @@
+@startuml
+title FactoryPattern（工厂方法模式）
+header 设计模式-创建型
+interface Car {
+    + void run()
+}
+abstract MiniCar {
+    + void run()
+}
+abstract RacingCar {
+    + void run()
+}
+
+interface CarFactory {
+    + Car newCar()
+}
+class MiniCarFactory {
+    + Car newCar()
+}
+class RacingCarFactory {
+    + Car newCar()
+}
+
+CarFactory <|.. MiniCarFactory : implement
+CarFactory <|.. RacingCarFactory : implement
+Car <|.. MiniCar : implement
+Car <|.. RacingCar : implement
+'MiniCar <|-- MiniCarFactory : make
+'RacingCar <|-- RacingCarFactory : make
+
+
+
+
+
+@enduml
