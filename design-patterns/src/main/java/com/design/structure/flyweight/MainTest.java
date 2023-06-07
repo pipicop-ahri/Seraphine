@@ -1,9 +1,6 @@
 package com.design.structure.flyweight;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.sun.corba.se.impl.activation.ServerMain.logError;
 
 /**
  * @Title: MainTest
