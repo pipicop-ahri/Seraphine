@@ -1,7 +1,5 @@
 package com.design.structure.flyweight;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * @Title: MainTest
  * @Description: TODO
@@ -9,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
  * @Date: 2023/5/21 09:11
  * @Version: 1.0
  */
-@Slf4j
 public class MainTest{
 	public static void main(String[] args) {
 		try {
