@@ -1,0 +1,30 @@
+@startuml
+title State Pattern（状态模式）
+header 设计模式-结构型
+footer State Pattern
+
+interface State <<抽象状态>>{
+    + void playGame()
+}
+class Vocation <<具体状态>>{
+    + void playGame()
+}
+class BeefNoodle <<具体状态>>{
+    + void playGame()
+}
+class MatchState <<具体状态>>{
+    + void playGame()
+}
+State <|.. Vocation : 实现
+State <|.. BeefNoodle : 实现
+State <|.. MatchState : 实现
+
+class STKTeam {
+    + State state
+    + State nextState(State nextState)
+    + void playGame()
+}
+
+STKTeam o-- State : 组合
+
+@enduml

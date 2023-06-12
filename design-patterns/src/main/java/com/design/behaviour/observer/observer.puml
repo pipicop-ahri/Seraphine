@@ -1,0 +1,41 @@
+@startuml
+title Observer Pattern（观察者模式）
+header 设计模式-结构型
+footer Observer Pattern
+
+'粉丝抽象
+abstract Fans <<抽象观察者>> {
+    + {abstract} void attention()
+    + {abstract} void acceptMsg()
+}
+
+class FansOne <<具体观察者1>> {
+    + void attention()
+    + void acceptMsg()
+}
+class FansTwo <<具体观察者2>> {
+    + void attention()
+    + void acceptMsg()
+}
+class FansThree <<具体观察者3>> {
+    + void attention()
+    + void acceptMsg()
+}
+Fans <|.. FansOne : 实现
+Fans <|.. FansTwo : 实现
+Fans <|.. FansThree : 实现
+
+abstract Star <<抽象目标>> {
+    + List<Fans> fansList
+    + {abstract} void addFans()
+    + {abstract} void noticeFans()
+}
+class Seraphine <<具体目标>>{
+    + List<Fans> fansList
+    + void addFans()
+    + void noticeFans()
+}
+Star <|-- Seraphine : 继承
+Star o-- Fans : 组合
+
+@enduml

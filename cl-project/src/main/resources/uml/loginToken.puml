@@ -43,21 +43,23 @@ class MultiParkSsoToken {
     - String userMobile
 }
 'Service
-abstract TokenProcessService {
-    + TokenProcessVo processToken(AuthenticationToken authcToken)
-}
-class CustomAuthTokenProcessService <<CustomRealm>> {
-    + instanceof ParkAuthUserToken
-}
-class ParkTokenProcessService <<CustomRealm>>{
-    + instanceof Frame_UsernamePasswordToken
-}
-class AuthTokenProcessService <<JarRealm>>{
-    + instanceof AuthUserNamePasswordToken
-}
-class MultiParkTokenProcessService <<CustomRealm>> {
-    + TokenProcessVo processToken(AuthenticationToken authcToken);
-    + instanceof MultiParkSsoToken
+'abstract TokenProcessService {
+'    + TokenProcessVo processToken(AuthenticationToken authcToken)
+'}
+package "customerRealm" #DDDDDD{
+    class CustomAuthTokenProcessService <<CustomRealm>> {
+        + instanceof ParkAuthUserToken
+    }
+    class ParkTokenProcessService <<CustomRealm>>{
+        + instanceof Frame_UsernamePasswordToken
+    }
+    class AuthTokenProcessService <<JarRealm>>{
+        + instanceof AuthUserNamePasswordToken
+    }
+    class MultiParkTokenProcessService <<CustomRealm>> {
+        + TokenProcessVo processToken(AuthenticationToken authcToken);
+        + instanceof MultiParkSsoToken
+    }
 }
 'Shiro
 Serializable <|.. AuthenticationToken : extends
@@ -71,10 +73,10 @@ Frame_UsernamePasswordToken <|-- ParkAuthUserToken : extends
 Frame_UsernamePasswordToken <|-- AuthUserNamePasswordToken : extends
 Frame_UsernamePasswordToken <|-- MultiParkSsoToken : extends
 '处理类
-TokenProcessService <|-- CustomAuthTokenProcessService : extends
-TokenProcessService <|-- ParkTokenProcessService : extends
-TokenProcessService <|-- AuthTokenProcessService : extends
-TokenProcessService <|-- MultiParkTokenProcessService : extends
+'TokenProcessService <|-- CustomAuthTokenProcessService : extends
+'TokenProcessService <|-- ParkTokenProcessService : extends
+'TokenProcessService <|-- AuthTokenProcessService : extends
+'TokenProcessService <|-- MultiParkTokenProcessService : extends
 
 
 

@@ -1,0 +1,39 @@
+@startuml
+title Mediator Pattern（中介者模式）
+header 设计模式-结构型
+footer Mediator Pattern
+
+
+abstract Captain <<抽象同事类>>{
+    + ParkingApron parkingApron
+    + {abstract} void land()
+    + {abstract} void fly(){abstract}
+    + {abstract} void success()
+}
+class ChuanHang886 <<具体同事类>>{
+    + void land()
+    + void fly()
+    + void success()
+}
+class SiChuanAviation <<具体同事类>>{
+    + void land()
+    + void fly()
+    + void success()
+}
+Captain <|.. ChuanHang886 : 实现
+Captain <|.. SiChuanAviation : 实现
+
+
+abstract ControlTower <<抽象中介者>>{
+    + List<Captain> captions
+    + Boolean isApprove
+    + {abstract} Boolean acceptRequest()
+}
+class SiChuanControlTower <<具体中介者>>{
+    + Boolean isApprove
+    + Boolean acceptRequest()
+}
+ControlTower <|-- SiChuanControlTower : 继承
+Captain o-- ControlTower : 组合
+
+@enduml

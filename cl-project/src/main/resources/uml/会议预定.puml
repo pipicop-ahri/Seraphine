@@ -1,0 +1,174 @@
+@startuml
+participant Actor AS "用户"
+Actor -> MeetReserveController : saveMeetReserve
+activate MeetReserveController
+MeetReserveController -> MeetRoomService : 通过名称查会议室
+activate MeetRoomService
+MeetRoomService --> MeetReserveController
+deactivate MeetRoomService
+MeetReserveController -> MeetReserveService : 保存会议预定
+activate MeetReserveService
+MeetReserveService -> MeetReserveService : x ->
+activate MeetReserveService
+MeetReserveService --> MeetReserveService
+deactivate MeetReserveService
+MeetReserveService -> SupportService : save
+activate SupportService
+SupportService --> MeetReserveService
+deactivate SupportService
+MeetReserveService -> MeetReserveService : x ->
+activate MeetReserveService
+MeetReserveService --> MeetReserveService
+deactivate MeetReserveService
+MeetReserveService -> SupportService : save
+activate SupportService
+SupportService --> MeetReserveService
+deactivate SupportService
+MeetReserveService -> MeetReserveService : saveAudit
+activate MeetReserveService
+MeetReserveService -> JSMSUtils : sendBatchTemplateSMS
+activate JSMSUtils
+JSMSUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JSMSUtils
+deactivate ISmsParkClient
+JSMSUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JSMSUtils
+deactivate ISmsParkClient
+JSMSUtils -> ISmsTemplateClient : getSmsTemplate
+activate ISmsTemplateClient
+ISmsTemplateClient --> JSMSUtils
+deactivate ISmsTemplateClient
+JSMSUtils -> ISmsTemplateClient : getSmsTemplate
+activate ISmsTemplateClient
+ISmsTemplateClient --> JSMSUtils
+deactivate ISmsTemplateClient
+JSMSUtils -> JSMSUtils : sendSMSToChannel
+activate JSMSUtils
+JSMSUtils --> JSMSUtils
+deactivate JSMSUtils
+JSMSUtils -> JSMSTemplates : buildTemplate
+activate JSMSTemplates
+JSMSTemplates --> JSMSUtils
+deactivate JSMSTemplates
+JSMSUtils -> MybitEntity : prePersist
+activate MybitEntity
+MybitEntity --> JSMSUtils
+deactivate MybitEntity
+JSMSUtils -> SmsUtil : getContent
+activate SmsUtil
+SmsUtil --> JSMSUtils
+deactivate SmsUtil
+JSMSUtils -> ISmsRecordClient : insert
+activate ISmsRecordClient
+ISmsRecordClient --> JSMSUtils
+deactivate ISmsRecordClient
+JSMSUtils --> MeetReserveService
+deactivate JSMSUtils
+MeetReserveService -> ISysNoticeClient : saveNotice
+activate ISysNoticeClient
+ISysNoticeClient --> MeetReserveService
+deactivate ISysNoticeClient
+MeetReserveService --> MeetReserveService
+deactivate MeetReserveService
+MeetReserveService -> JSMSUtils : sendBatchTemplateSMS
+activate JSMSUtils
+JSMSUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JSMSUtils
+deactivate ISmsParkClient
+JSMSUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JSMSUtils
+deactivate ISmsParkClient
+JSMSUtils -> ISmsTemplateClient : getSmsTemplate
+activate ISmsTemplateClient
+ISmsTemplateClient --> JSMSUtils
+deactivate ISmsTemplateClient
+JSMSUtils -> ISmsTemplateClient : getSmsTemplate
+activate ISmsTemplateClient
+ISmsTemplateClient --> JSMSUtils
+deactivate ISmsTemplateClient
+JSMSUtils -> JSMSUtils : sendSMSToChannel
+activate JSMSUtils
+JSMSUtils -> HttpRequestUtil : postByBody2
+activate HttpRequestUtil
+HttpRequestUtil --> JSMSUtils
+deactivate HttpRequestUtil
+JSMSUtils --> JSMSUtils
+deactivate JSMSUtils
+JSMSUtils -> JSMSTemplates : buildTemplate
+activate JSMSTemplates
+JSMSTemplates --> JSMSUtils
+deactivate JSMSTemplates
+JSMSUtils -> MybitEntity : prePersist
+activate MybitEntity
+MybitEntity --> JSMSUtils
+deactivate MybitEntity
+JSMSUtils -> SmsUtil : getContent
+activate SmsUtil
+SmsUtil --> JSMSUtils
+deactivate SmsUtil
+JSMSUtils -> ISmsRecordClient : insert
+activate ISmsRecordClient
+ISmsRecordClient --> JSMSUtils
+deactivate ISmsRecordClient
+JSMSUtils --> MeetReserveService
+deactivate JSMSUtils
+MeetReserveService -> ISysTodoClient : saveTodo
+activate ISysTodoClient
+ISysTodoClient --> MeetReserveService
+deactivate ISysTodoClient
+MeetReserveService -> JPushParm : builder
+activate JPushParm
+JPushParm --> MeetReserveService
+deactivate JPushParm
+MeetReserveService -> JPushParmBuilder : type
+activate JPushParmBuilder
+JPushParmBuilder --> MeetReserveService
+deactivate JPushParmBuilder
+MeetReserveService -> JPushParmBuilder : url
+activate JPushParmBuilder
+JPushParmBuilder --> MeetReserveService
+deactivate JPushParmBuilder
+MeetReserveService -> JPushParmBuilder : build
+activate JPushParmBuilder
+JPushParmBuilder --> MeetReserveService
+deactivate JPushParmBuilder
+MeetReserveService -> JPushUtils : sendPush
+activate JPushUtils
+JPushUtils -> ParkUtils : getParkByUserId
+activate ParkUtils
+ParkUtils -> IUserCenterClient : getParkByUserId
+activate IUserCenterClient
+IUserCenterClient --> ParkUtils
+deactivate IUserCenterClient
+ParkUtils --> JPushUtils
+deactivate ParkUtils
+JPushUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JPushUtils
+deactivate ISmsParkClient
+JPushUtils -> ISmsParkClient : getSMSByParkId
+activate ISmsParkClient
+ISmsParkClient --> JPushUtils
+deactivate ISmsParkClient
+JPushUtils -> JPushUtils : buildPushObject_all_alias_alert
+activate JPushUtils
+JPushUtils --> JPushUtils
+deactivate JPushUtils
+JPushUtils -> JPushUtils : buildPushObject_all_alias_alert_badge
+activate JPushUtils
+JPushUtils --> JPushUtils
+deactivate JPushUtils
+JPushUtils --> MeetReserveService
+deactivate JPushUtils
+MeetReserveService -> IRemindWebSocket : sendInfo
+activate IRemindWebSocket
+IRemindWebSocket --> MeetReserveService
+deactivate IRemindWebSocket
+MeetReserveService --> MeetReserveController
+deactivate MeetReserveService
+return
+@enduml
